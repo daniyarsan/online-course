@@ -1,0 +1,91 @@
+{% extends "admin/base.html.twig" %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/vendors/css/vendors.min.css' ) }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/css/pages/page-users.min.css' ) }}">
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2">
+            <h3 class="content-header-title mb-0">Редактировать Вопрос</h3>
+            <div class="row breadcrumbs-top">
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url('admin_dashboard_index') }}">Домой</a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin_quiz_index')}}">Список Квизов</a>
+                        </li>
+                        <li class="breadcrumb-item active">Редактировать Вопрос</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2">
+            <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-settings icon-left"></i> Опции</button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        {#                        <a class="dropdown-item" href="card-bootstrap.html">Bootstrap Cards</a>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-body"><!-- invoice add wrapper -->
+        <div class="invoice-add-wrapper">
+            <!-- defining a Bootstrap row -->
+            <div class="row">
+                <!-- defining Bootstrap columns for diffrent screen sizes -->
+                <div class="col-xl-9 col-md-8 col-12">
+                    <!-- Bootstrap card component -->
+                    <div class="card">
+                        <div class="card-body">
+                            {% include('admin/question/parts/options.html.twig') with  {submit: 'Обновить', quiz: question.quiz} %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-4 col-12">
+
+{#                    <div class="action-buttons card">#}
+{#                        <div class="card-body">#}
+{#                            <button class="btn btn-block btn-primary mb-1"><i class="fa fa-share common-size"></i> Send#}
+{#                                Invoice#}
+{#                            </button>#}
+{#                            <button class="btn btn-block btn-primary mb-1">Download Invoice</button>#}
+{#                            <div class="inline-btns w-100 d-flex justify-content-between">#}
+{#                                <div class="btn-save w-50 mr-50">#}
+{#                                    <button class="btn btn-light mb-1 btn-block">Preview</button>#}
+{#                                </div>#}
+{#                                <div class="btn-preview w-50 ml-50">#}
+{#                                    <button class="btn btn-light mb-1 btn-block">Save</button>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <button class="btn btn-block btn-success"><i class="fa fa-usd common-size"></i>#}
+{#                                Payment#}
+{#                            </button>#}
+{#                        </div>#}
+{#                    </div>#}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script src="{{ asset('admin/vendors/js/tables/datatable/datatables.min.js') }}"></script>
+<script src="{{ asset('admin/js/scripts/pages/page-users.min.js') }}"></script>
+<script src="{{ asset('admin/vendors/js/forms/repeater/jquery.repeater.min.js') }}"></script>
+<script src="{{ asset('admin/vendors/js/forms/toggle/switchery.min.js') }}"></script>
+<script src="{{ asset('admin/js/scripts/pages/app-invoice.min.js') }}"></script>
+
+
+
+{% endblock %}

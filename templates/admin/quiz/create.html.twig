@@ -1,0 +1,51 @@
+{% extends "admin/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2">
+            <h3 class="content-header-title mb-0">Создать Тест</h3>
+            <div class="row breadcrumbs-top">
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url('admin_dashboard_index') }}">Домой</a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin_quiz_index') }}">Список Квизов</a>
+                        </li>
+                        <li class="breadcrumb-item active">Создать Квиз</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2">
+        </div>
+    </div>
+
+    <div class="content-body"><!-- invoice add wrapper -->
+        <div class="invoice-add-wrapper">
+            <!-- defining a Bootstrap row -->
+            <div class="row">
+                <!-- defining Bootstrap columns for diffrent screen sizes -->
+                <div class="col-xl-12 col-md-12 col-12">
+                    <!-- Bootstrap card component -->
+                    <div class="card">
+                        <div class="card-body">
+                            {% include('admin/quiz/parts/form.html.twig') with  {submit: 'Создать'} %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script src="{{ asset('admin/vendors/js/forms/repeater/jquery.repeater.min.js') }}"></script>
+<script src="{{ asset('admin/vendors/js/forms/toggle/switchery.min.js') }}"></script>
+{% endblock %}

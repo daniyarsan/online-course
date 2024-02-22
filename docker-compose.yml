@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  nginx:
+    build: './docker/nginx'
+    restart: on-failure
+    volumes:
+      - ${PWD}:/var/www
+      - ${PWD}/var/logs/nginx/:/var/log/nginx
+      - ${PWD}/docker/nginx/api.conf:/etc/nginx/conf.d/api.conf
+    depends_on:
+      - api
+      - database
+    ports:
+      - "8000:80"
+
+  ### API ###
+  api:
+    build: 'docker/php'
+    restart: on-failure
+    expose:
+      - 9000
+    volumes:
+      - ${PWD}:/var/www
+      - ${PWD}/docker/php/php.ini:/usr/local/etc/php/php.ini:ro
+      - ${PWD}/docker/php/zzz-xdebug.ini:/usr/local/etc/php/conf.d/zzz-xdebug.ini
+      - ${PWD}/docker/php/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+
+  ### DATABASE ###
+  database:
+    image: mysql:latest
+    volumes:
+      - "./docker/mysql/db:/var/lib/mysql"
+      - "./docker/dump:/var/dump"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "10000:3306"

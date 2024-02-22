@@ -1,0 +1,157 @@
+{% extends "admin/base.html.twig" %}
+{% import 'admin/_parts/dialogs.html.twig' as dialogs %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="{{ asset('admin/js/scripts/pages/quill-helper.min.js') }}"></script>
+{% endblock %}
+
+
+{% block content %}
+    <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2">
+            <h3 class="content-header-title mb-0">{{ course.title }}</h3>
+            <div class="row breadcrumbs-top">
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url('admin_dashboard_index') }}">Домой</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin_course_index') }}">Список курсов</a></li>
+                        <li class="breadcrumb-item"><a href="#">{{ course.title }}</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2">
+            <div class="float-md-right">
+                <a data-toggle="modal" href="#remove-course-{{ course.id }}" class="btn btn-outline-danger"><i class="fa fa-trash"></i></a>
+                {{ dialogs.confirm('remove-course-' ~ course.id, 'Удалить', url('admin_course_delete', {id: course.id}), 'Вы точно хотите удалить курс?') }}
+            </div>
+        </div>
+    </div>
+    <div class="content-body">
+        <div class="invoice-add-wrapper">
+            <div class="row">
+                <div class="col-xl-12 col-md-12 col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-text">
+                                <p>Здесь вы можете создать урок. Все уроки поделены на главы. При создании урока выберите существующую главу или создайте новую</p>
+                            </div>
+
+                            <div class="form-body">
+                                {{ form_start(form, {attr: {class: 'form form-horizontal'}}) }}
+                                <h4 class="form-section"><i class="feather icon-user"></i> Редактировать курс</h4>
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 label-control">Название курса</label>
+                                    <div class="col-md-9">
+                                        {{ form_widget(form.title, {attr: {placeholder: 'Название курса'}}) }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 label-control">Категория</label>
+                                    <div class="col-md-9">
+                                        {{ form_widget(form.category, {attr: {'class': 'form-control select2', 'data-placeholder': "Выберите категорию"}}) }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group row clearfix">
+                                    <label class="col-md-3 label-control">Описание</label>
+                                    <div class="col-md-9">
+                                        {{ form_widget(form.description, {attr: {class: 'quilljs-textarea'}}) }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <button data-repeater-create class="btn btn-primary mt-1 pull-right" type="submit"><i class="fa fa-rocket"></i> Сохранить</button>
+                                    </div>
+                                </div>
+
+                                {{ form_end(form) }}
+
+                                <h4 class="form-section"><i class="feather icon-list"></i> Список уроков</h4>
+
+                                {% for key, chapter in course.chapters %}
+                                    <div class="row mb-2">
+                                        <div class="col-md-12">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary btn-min-width dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Глава: {{ chapter.title }}</button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="{{ path('admin_chapter_edit', {id : chapter.id}) }}"><i class="fa fa-pencil"></i> Редактировать</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a data-toggle="modal" href="#remove-chapter-{{ chapter.id }}" class="dropdown-item"><i class="fa fa-trash"></i> Удалить</a>
+                                                </div>
+                                            </div>
+                                            {{ dialogs.confirm('remove-chapter-' ~ chapter.id, 'Удалить', url('admin_chapter_delete', {id: chapter.id}), 'Вы точно хотите удалить главу?') }}
+                                        </div>
+                                    </div>
+
+                                    <table class="table table-bordered mb-3">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th style="width: 40%;">Название</th>
+                                            <th style="width: 40%;">Описание</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% if chapter.lessons is defined %}
+                                            {% for lessonKey, lesson in chapter.lessons %}
+                                                <tr>
+                                                    <th scope="row">{{ lesson.id }}</th>
+                                                    <td>{{ lesson.title }}</td>
+                                                    <td>{{ lesson.content | u.truncate(150, '...') | striptags }}</td>
+                                                    <td>
+                                                        <a class="btn btn-outline-primary" href="{{ path('admin_lesson_edit', {id : lesson.id}) }}"><i class="fa fa-pencil"></i></a>
+
+                                                        <a data-toggle="modal" href="#remove-lesson-{{ lesson.id }}" class="btn btn-danger"><i class="feather icon-trash"></i></a>
+                                                        {{ dialogs.confirm('remove-lesson-' ~ lesson.id, 'Удалить', url('admin_lesson_delete', {id: lesson.id}), 'Вы точно хотите удалить урок?') }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% endif %}
+
+                                        </tbody>
+                                    </table>
+                                {% endfor %}
+
+                                <a href="{{ path('admin_lesson_create', {id : course.id}) }}" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Добавить урок</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+
+<script src="{{ asset('admin/js/scripts/pages/quill-helper.min.js') }}"></script>
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<script>
+(function() {
+  quilljs_textarea('.quilljs-textarea', {
+  modules: { toolbar: [
+      ['bold', 'italic', 'underline'],        // toggled buttons
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      [{ 'align': [] }],
+  ]},
+  theme: 'snow',
+  });
+})();
+</script>
+{% endblock %}

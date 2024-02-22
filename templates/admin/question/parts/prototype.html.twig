@@ -1,0 +1,15 @@
+<div class="row mt-2">
+    <div class="col-md-3 mb-2">
+        {{ form_widget(form.description, {attr: {placeholder: 'Вариант ответа'}}) }}
+    </div>
+    <div class="col-md-3 mb-2">
+        {{ form_widget(form.type, {attr: {'class': 'form-control select2'}, 'placeholder': "Выберите тип"}) }}
+    </div>
+    <div class="col-md-3 mb-2">
+        {{ form_widget(form.score, {attr: {placeholder: 'Балл'}}) }}
+    </div>
+    <div class="col-md-3 mb-2">
+        <button class="btn btn-danger removeListItem" type="button"><i class="fa fa-minus"></i> Remove</button>
+    </div>
+</div>
+<hr>

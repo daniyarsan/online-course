@@ -1,0 +1,138 @@
+{% extends "admin/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2">
+                    <h3 class="content-header-title mb-0">Сотрудники</h3>
+                    <div class="row breadcrumbs-top">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="#">Invoice</a>
+                                </li>
+                                <li class="breadcrumb-item active">Invoice List
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2">
+                    <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-settings icon-left"></i> Settings</button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1"><a class="dropdown-item" href="card-bootstrap.html">Bootstrap Cards</a><a class="dropdown-item" href="component-buttons-extended.html">Buttons Extended</a></div>
+                        </div>
+                        <a class="btn btn-outline-primary" href="full-calender-basic.html"><i class="feather icon-mail"></i></a><a class="btn btn-outline-primary" href="timeline-center.html"><i class="feather icon-pie-chart"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-body">
+                <div class="row mb-1 mt-1 mt-md-0">
+                    <div class="col-12">
+                        <a href="invoice-add.html" class="btn btn-primary">Create Invoice</a>
+                    </div>
+                </div>
+
+                <section class="users-list-wrapper">
+                    <div class="users-list-filter px-1">
+                        <form>
+                            <div class="row border border-light rounded py-2 mb-2">
+                                <div class="col-12 col-sm-6 col-lg-3">
+                                    <label for="users-list-verified">Квиз</label>
+                                    <fieldset class="form-group">
+                                        <select class="form-control" id="users-list-verified">
+                                            <option value="">Любой</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-3">
+                                    <label for="users-list-role">Департамент</label>
+                                    <fieldset class="form-group">
+                                        <select class="form-control" id="users-list-role">
+                                            <option value="">Any</option>
+                                            <option value="User">User</option>
+                                            <option value="Staff">Staff</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-3">
+                                    <label for="users-list-status">Status</label>
+                                    <fieldset class="form-group">
+                                        <select class="form-control" id="users-list-status">
+                                            <option value="">Any</option>
+                                            <option value="Active">Active</option>
+                                            <option value="Close">Close</option>
+                                            <option value="Banned">Banned</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="users-list-table">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <!-- datatable start -->
+                                    <div class="table-responsive">
+                                        <table id="users-list-datatable" class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>id</th>
+                                                <th>Сотрудник</th>
+                                                <th>Отдел</th>
+                                                <th>Тесты</th>
+                                                <th>Создан</th>
+                                                <th>Статус</th>
+                                                <th>Действия</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for user in data %}
+                                                <tr>
+                                                    <td>{{ user.id }}</td>
+                                                    <td>{{ user.username }}</td>
+                                                    <td>{{ user.department }}</td>
+                                                    <td style="width: 30%;">{% for result in user.results %} <span class="badge badge-default">{{ result.quiz.title }}</span> {% endfor %}</td>
+                                                    <td>{{ user.createdAt|date('d-m-Y') }}</td>
+                                                    <td><span class="badge badge-success">Active</span></td>
+                                                    <td>
+                                                        <a href=""><i class="feather icon-eye"></i></a>
+                                                        <a href=""><i class="feather icon-edit-1"></i></a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- datatable ends -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- users list ends -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script src="{{ asset('admin/vendors/js/tables/datatable/datatables.min.js') }}"></script>
+<script src="{{ asset('admin/js/scripts/pages/page-users.min.js') }}"></script>
+{% endblock %}

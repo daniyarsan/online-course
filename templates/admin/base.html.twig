@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="Stack admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
+    <meta name="keywords" content="admin template, stack admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="author" content="PIXINVENT">
+    <title>Quiz Admin - {% block title %}{% endblock %}</title>
+
+    {#    <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png"> #}
+    {#    <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico"> #}
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/css/bootstrap.min.css' ) }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/css/bootstrap-extended.min.css' ) }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/css/colors.min.css' ) }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/css/components.min.css' ) }}">
+    <!-- END: Theme CSS-->
+
+    {% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/vendors/css/vendors.min.css' ) }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/vendors/css/tables/datatable/datatables.min.css' ) }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/vendors/css/forms/selects/select2.min.css' ) }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/css/pages/page-users.min.css' ) }}">
+    {% endblock %}
+
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/css/core/menu/menu-types/vertical-menu-modern.css' ) }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/fonts/simple-line-icons/style.min.css' ) }}">
+    <!-- END: Page CSS-->
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+<body class="vertical-layout vertical-menu-modern 2-columns  fixed-navbar" data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+
+
+<!-- BEGIN: Header-->
+{% include 'admin/_parts/header.html.twig' %}
+<!-- END: Header-->
+
+
+<!-- BEGIN: Main Menu-->
+{% include 'admin/_parts/menu.html.twig' %}
+<!-- END: Main Menu-->
+
+
+<!-- BEGIN: Content-->
+<div class="app-content content">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger alert-dismissible mb-2" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible mb-2" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% block content %}{% endblock %}
+    </div>
+</div>
+<!-- END: Content-->
+
+
+<!-- BEGIN: Footer-->
+{% include 'admin/_parts/footer.html.twig' %}
+<!-- END: Footer-->
+
+
+<!-- BEGIN: Vendor JS-->
+{% block javascript %}
+    <script src="{{ asset( 'admin/vendors/js/vendors.min.js' ) }}"></script>
+    <script src="{{ asset('admin/vendors/js/tables/datatable/datatables.min.js') }}"></script>
+    <script src="{{ asset( 'admin/vendors/js/forms/select/select2.full.min.js' ) }}"></script>
+    <script src="{{ asset( 'admin/js/scripts/forms/select/form-select2.min.js' ) }}"></script>
+    <script src="{{ asset('admin/js/scripts/pages/page-users.min.js') }}"></script>
+
+{% endblock %}
+<!-- BEGIN Vendor JS-->
+
+<!-- BEGIN: Theme JS-->
+<script src="{{ asset( 'admin/js/core/app-menu.min.js' ) }}"></script>
+<script src="{{ asset( 'admin/js/core/app.min.js' ) }}"></script>
+<!-- END: Theme JS-->
+
+</body>
+<!-- END: Body-->
+</html>

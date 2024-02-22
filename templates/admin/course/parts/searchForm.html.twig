@@ -1,0 +1,21 @@
+<div class="card">
+    <div class="card-content">
+        <div class="card-body">
+            {{ form_start(searchForm) }}
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        {{ form_widget(searchForm.category, { 'attr' : { 'class': 'custom-select block' } }) }}
+                    </div>
+                </div>
+
+                <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
+                    <a href="{{ path('admin_course_index') }}" type="reset" class="btn btn-light mb-1 mb-sm-0 mr-0 mr-sm-1">Cancel</a>
+                    <button type="submit" class="btn btn-primary glow">Search</button>
+                </div>
+            </div>
+
+            {{ form_end(searchForm, {'render_rest': false}) }}
+        </div>
+    </div>
+</div>

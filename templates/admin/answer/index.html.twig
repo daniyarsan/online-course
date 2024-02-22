@@ -1,0 +1,89 @@
+{% extends "admin/base.html.twig" %}
+{% import 'admin/_parts/dialogs.html.twig' as dialogs %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2">
+            <h3 class="content-header-title mb-0">Результаты требующие оценки</h3>
+            <div class="row breadcrumbs-top">
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url('admin_dashboard_index') }}">Домой</a></li>
+                        <li class="breadcrumb-item"><a href="#">Результаты</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2">
+          
+        </div>
+    </div>
+
+    <div class="content-body">
+        <section class="users-list-wrapper">
+            {% include 'admin/answer/parts/searchForm.html.twig' %}
+
+            <div class="users-list-table">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <!-- datatable start -->
+                            <div class="table-responsive">
+                                <table id="users-list-datatable" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Сотрудник</th>
+                                        <th>Квиз</th>
+                                        <th style="width: 30%;">Вопрос</th>
+                                        <th>Ответ</th>
+                                        <th style="width: 10%;">Балл</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for answer in data %}
+                                        <tr>
+                                            <td class="align-middle">{{ answer.id }}</td>
+                                            <td class="align-middle">{{ answer.result.user.username }}</td>
+                                            <td class="align-middle">{{ answer.result.quiz }}</td>
+                                            <td class="align-middle">
+                                                <span>{{ answer.questionText }}</span>
+                                            </td>
+                                            <td class="align-middle">
+                                                <span>{{ answer.content }}</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                {{ form_start(evaluateForm, {action: url('admin_answer_evaluate', {id: answer.id})}) }}
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <input class="form-control" name="{{ field_name(evaluateForm.score) }}" type="text" required="required">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i></button>
+                                                    </div>
+                                                </div>
+                                                {{ form_end(evaluateForm) }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+{% endblock %}

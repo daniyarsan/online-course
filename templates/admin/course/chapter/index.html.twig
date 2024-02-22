@@ -1,0 +1,83 @@
+{% extends "admin/base.html.twig" %}
+
+{% import 'admin/_parts/dialogs.html.twig' as dialogs %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2">
+            <h3 class="content-header-title mb-0">Главы</h3>
+            <div class="row breadcrumbs-top">
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url('admin_dashboard_index') }}">Домой</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin_course_index') }}">Список Курсов</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin_course_edit', {id: course.id}) }}">{{ course.title }}</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2 text-right">
+{#            <a class="btn btn-outline-primary" href="{{ url('admin_course_create') }}">+</a>#}
+        </div>
+    </div>
+
+    <div class="content-body">
+        <section class="users-list-wrapper">
+{#            {% include 'admin/course/parts/searchForm.html.twig' %}#}
+
+            <div class="users-list-table">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <!-- datatable start -->
+                            <div class="table-responsive">
+                                <table id="users-list-datatable" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th style="width: 10%;">Название</th>
+                                        <th style="width: 20%;">Описание</th>
+                                        <th>Категория</th>
+                                        <th>Создан</th>
+                                        <th style="width: 10%;">Действия</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+{#                                    {% for course in data %}#}
+{#                                        <tr>#}
+{#                                            <td>{{ course.id }}</td>#}
+{#                                            <td>{{ course.title }}</td>#}
+{#                                            <td>{{ course.description | u.truncate(50, '...') }}</td>#}
+{#                                            <td>{{ course.category ? course.category.name : '' }}</td>#}
+
+{#                                            <td>{{ course.createdAt|date('d/m/Y') }}</td>#}
+
+{#                                            <td>#}
+{#                                                <div class="invoice-action">#}
+{#                                                    <a href="{{ path('admin_course_edit', {id: course.id}) }}" class="btn btn-success"><i class="feather icon-edit"></i></a>#}
+{#                                                    <a data-toggle="modal" href="#remove-course-{{ course.id }}" class="btn btn-danger"><i class="feather icon-trash"></i></a>#}
+{#                                                    {{ dialogs.confirm('remove-course-' ~ course.id, 'Удалить', url('admin_course_delete', {id: course.id}), 'Вы точно хотите удалить курс?') }}#}
+{#                                                </div>#}
+{#                                            </td>#}
+{#                                        </tr>#}
+{#                                    {% endfor %}#}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+{% endblock %}

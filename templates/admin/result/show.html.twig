@@ -1,0 +1,126 @@
+{% extends "admin/base.html.twig" %}
+{% import 'admin/_parts/dialogs.html.twig' as dialogs %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2">
+            <h3 class="content-header-title mb-0">{{ result.quiz.title }}</h3>
+            <div class="row breadcrumbs-top">
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url('admin_dashboard_index') }}">Домой</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin_quiz_index') }}">Список Квизов</a></li>
+                        <li class="breadcrumb-item"><a href="#">{{ result.quiz.title }}</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2">
+            <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-settings icon-left"></i> Опции</button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    </div>
+                </div>
+
+                <a data-toggle="modal" href="#remove-result-{{ result.id }}" class="btn btn-outline-primary"><i class="fa fa-trash"></i></a>
+                {{ dialogs.confirm('remove-result-' ~ result.id, 'Удалить', url('admin_result_delete', {id: result.id}), 'Вы точно хотите удалить результат?') }}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="content-body">
+        <div class="invoice-add-wrapper">
+            <div class="row">
+
+                <div class="col-xl-12 col-md-8 col-12">
+                    <div class="card">
+                        <div class="card-body p-2">
+                            <div class="card-header p-0">
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-12 col-xl-4 mb-50">
+                                        <span class="invoice-id font-weight-bold">Результат# </span>
+                                        <span>{{ result.id }}</span>
+                                    </div>
+                                    <div class="col-md-12 col-lg-12 col-xl-8">
+                                        <div class="d-flex align-items-center justify-content-end justify-content-xs-start">
+                                            <div class="issue-date pr-2">
+                                                <span class="font-weight-bold no-wrap">Создан: </span>
+                                                <span>{{ result.createdAt|date('d/m/Y') }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 d-flex flex-column justify-content-center align-items-start">
+                                        <h2>{{ result.user.username }}: {{ result.quiz.title }}</h2>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <!-- invoice logo and title -->
+
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <h4 class="card-title">Ответы</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                        </div>
+                        <div class="card-content">
+                            <div id="audience-list-scroll" class="table-responsive position-relative">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Вопрос</th>
+                                        <th>Ответ</th>
+                                        <th style="width: 30%;">Правильный</th>
+                                        <th>Балл</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for answer in result.answers %}
+                                        <tr class="{{ answer.isCorrect ? 'bg-teal bg-lighten-4' : 'bg-pink bg-lighten-4' }}">
+                                            <td class="align-middle">{{ answer.id }}</td>
+                                            <td class="align-middle">
+                                                <span>{{ answer.questionText }}</span>
+                                            </td>
+                                            <td class="align-middle">
+                                                <span>{{ answer.content }}</span>
+                                            </td>
+                                            <td class="align-middle">
+                                                {% for choice in answer.question.correctChoices %}<p>{{ choice.description }}</p>{% endfor %}
+                                            </td>
+                                            <td class="align-middle">{{ answer.score }}</td>
+                                        </tr>
+
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+    <script src="{{ asset('admin/vendors/js/forms/repeater/jquery.repeater.min.js') }}"></script>
+    <script src="{{ asset('admin/vendors/js/forms/toggle/switchery.min.js') }}"></script>
+    <script src="{{ asset('admin/js/scripts/pages/app-invoice.min.js') }}"></script>
+{% endblock %}

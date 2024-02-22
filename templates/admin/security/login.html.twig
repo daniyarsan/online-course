@@ -1,0 +1,61 @@
+{% extends 'admin/base_auth.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block content %}
+    <section class="row flexbox-container">
+        <div class="col-12 d-flex align-items-center justify-content-center">
+            <div class="col-lg-4 col-md-8 col-10 box-shadow-2 p-0">
+                <div class="card border-grey border-lighten-3 m-0">
+                    <div class="card-header border-0">
+                        <div class="card-title text-center">
+                            <div class="p-1"><img src="{{ asset('images/logo.svg') }}" alt="branding logo"></div>
+                        </div>
+                        <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2"><span>Войти в админ панель</span></h6>
+                    </div>
+
+                    <div class="card-content">
+                        <div class="card-body">
+                            <form class="form-horizontal form-simple" method="post">
+                                {% if error %}
+                                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                {% endif %}
+
+                                {% if app.user %}
+                                    <div class="mb-3">
+                                        You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                                    </div>
+                                {% endif %}
+
+                                <fieldset class="form-group position-relative has-icon-left">
+                                    <input type="text" value="{{ last_username }}" name="username" placeholder="Username" class="form-control form-control-lg" required autofocus />
+                                    <div class="form-control-position"><i class="feather icon-user"></i></div>
+                                </fieldset>
+
+                                <fieldset class="form-group position-relative has-icon-left">
+                                    <input type="password" name="password" placeholder="Password" class="form-control form-control-lg" required />
+                                    <div class="form-control-position"><i class="fa fa-key"></i></div>
+                                </fieldset>
+
+                                <div class="checkbox mb-3">
+                                    <label><input type="checkbox" name="_remember_me"> Remember me</label>
+                                </div>
+
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                                <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="feather icon-unlock"></i> Login</button>
+                            </form>
+
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

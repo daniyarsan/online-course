@@ -1,0 +1,27 @@
+.quiz {}
+
+.quiz .ui.button {
+    text-align: left;
+}
+
+.quiz .counter {
+    font-size: 17px;
+}
+.quiz .timer {
+    float: right;
+}
+
+.ui.progress {
+    height: 5px;
+    margin: 0px;
+}
+
+.ui.progress div {
+    min-width: 1px;
+}
+
+.quiz .content {
+    font-weight: bold;
+    font-size: 20px;
+}
+

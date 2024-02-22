@@ -1,0 +1,87 @@
+{% extends "admin/base.html.twig" %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/vendors/css/vendors.min.css' ) }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/vendors/css/tables/datatable/datatables.min.css' ) }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/css/pages/page-users.min.css' ) }}">
+{% endblock %}
+
+
+{% block content %}
+    <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2">
+            <h3 class="content-header-title mb-0">Сообщения</h3>
+            <div class="row breadcrumbs-top">
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url('admin_dashboard_index') }}">Домой</a></li>
+                        <li class="breadcrumb-item"><a href="#">Сообщения</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2">
+            <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-settings icon-left"></i> Settings</button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1"><a class="dropdown-item" href="card-bootstrap.html">Bootstrap Cards</a><a class="dropdown-item" href="component-buttons-extended.html">Buttons Extended</a></div>
+                </div>
+                <a class="btn btn-outline-primary" href="full-calender-basic.html"><i class="feather icon-mail"></i></a><a class="btn btn-outline-primary" href="timeline-center.html"><i class="feather icon-pie-chart"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-body">
+
+        <section class="users-list-wrapper">
+            <div class="users-list-table">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="users-list-datatable" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>Должность</th>
+                                        <th>Зарплата</th>
+                                        <th>Создан</th>
+                                        <th>Действие</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                    {% for message in data %}
+                                        <tr>
+                                            <td>{{ message.user ? message.user.username : 'Аноним' }}</td>
+                                            <td>{{ message.position }}</td>
+                                            <td>{{ message.salary }}</td>
+                                            <td>{{ message.createdAt|date('d/m/Y') }}</td>
+                                            <td>
+                                                <a href="{{ url('admin_message_show', {id : message.id}) }}" class="btn btn-success btn-sm">
+                                                    <i class="feather icon-eye"></i> Смотреть
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- datatable ends -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- users list ends -->
+    </div>
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script src="{{ asset('admin/vendors/js/tables/datatable/datatables.min.js') }}"></script>
+<script src="{{ asset('admin/js/scripts/pages/page-users.min.js') }}"></script>
+{% endblock %}

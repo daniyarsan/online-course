@@ -1,0 +1,26 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-6 col-xs-12 mb-1">
+        {{ form_widget(form.title, {attr: {placeholder: 'Название квиза'}}) }}
+    </div>
+    <div class="col-6 col-xs-12 mb-1">
+        {{ form_widget(form.timeLimit, {attr: {placeholder: 'Время прохождения квиза'}}) }}
+    </div>
+    <div class="col-6 col-xs-12 mb-2">
+        {{ form_widget(form.departments, {attr: {'class': 'form-control select2'}}) }}
+    </div>
+
+    <div class="col-6 col-xs-12 mb-2">
+        {{ form_widget(form.category, {attr: {'class': 'form-control select2'}, 'placeholder': "Выберите отдел"}) }}
+    </div>
+
+    <div class="col-12 col-xs-12 mb-1">
+        {{ form_widget(form.description, {attr: {placeholder: 'Описание...'}}) }}
+    </div>
+
+
+    <div class="col-12 col-xs-12 mb-2">
+        <button data-repeater-create class="btn btn-primary mt-1 pull-right" type="submit"><i class="fa fa-rocket"></i> {{ submit }}</button>
+    </div>
+</div>
+{{ form_end(form) }}

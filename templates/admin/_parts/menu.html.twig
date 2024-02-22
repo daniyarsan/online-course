@@ -1,0 +1,66 @@
+<div class="main-menu menu-fixed menu-dark menu-accordion menu-shadow" data-scroll-to-active="true">
+    <div class="main-menu-content">
+        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+            <li class="navigation-header">
+                <span>General</span>
+                <i class=" feather icon-minus" data-toggle="tooltip" data-placement="right" data-original-title="General"></i>
+            </li>
+            <li class="nav-item">
+                <a class="menu-item" href="{{ url('admin_dashboard_index') }}"><i class="feather icon-home"></i>Статистика</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="#"><i class="fa fa-users"></i>
+                    <span class="menu-title">HR</span>
+                </a>
+
+                <ul class="menu-content">
+                    <li class="nav-item">
+                        <a class="menu-item" href="{{ path('admin_users_index') }}"><i class="feather icon-user"></i> Сотрудники</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="menu-item" href="{{ path('admin_department_index') }}"><i class="feather icon-list"></i> Отделы</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a href="#"><i class="fa fa-question-circle"></i>
+                    <span class="menu-title">Тесты</span>
+                </a>
+                <ul class="menu-content">
+                    <li class="nav-item">
+                        <a class="menu-item" href="{{ path('admin_quiz_index') }}"><i class="fa fa-list-alt"></i> Список тестов</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu-item" href="{{ path('admin_result_index') }}"><i class="fa fa-check"></i> Результаты</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu-item" href="{{ path('admin_answer_index') }}"><i class="feather icon-alert-triangle"></i> Требующие оценку</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="menu-item" href="{{ path('admin_category_index') }}"><i class="feather icon-list"></i> Категории</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a href="#"><i class="fa fa-book"></i>
+                    <span class="menu-title">Курсы</span>
+                </a>
+                <ul class="menu-content">
+                    <li class="nav-item">
+                        <a class="menu-item" href="{{ path('admin_course_index') }}"><i class="fa fa-list"></i> Список курсов</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="menu-item" href="{{ path('admin_message_index') }}"><i class="feather icon-message-circle"></i> Обращения</a>
+            </li>
+
+        </ul>
+    </div>
+</div>

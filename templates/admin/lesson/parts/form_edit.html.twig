@@ -1,0 +1,151 @@
+{% import "admin/_macros/prototype.html.twig" as prototype %}
+
+{{ form_start(form, {attr: {class: 'form form-horizontal'}}) }}
+
+<div class="form-body">
+
+    <div class="form-group row">
+        <label class="col-md-3 label-control">Выберие главу</label>
+        <div class="col-md-9">
+            {{ form_widget(form.chapter, {attr: {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-3 label-control">Название урока</label>
+        <div class="col-md-9">
+            {{ form_widget(form.title, {attr: {placeholder: 'Название урока'}}) }}
+        </div>
+    </div>
+
+    <h4 class="form-section"><i class="feather icon-link"></i> Ссылка</h4>
+    <div id="fieldsList"
+         class="col-md-12 mb-4"
+         data-media-prototype="{{ prototype.mediaCollectionItem(form.media.vars.prototype)|e }}">
+
+        {% for widget in form.media.children %}
+            {{ prototype.mediaCollectionItem(widget) }}
+        {% endfor %}
+    </div>
+
+    <div class="col-12 col-xs-12 mt-2 mb-2 text-right">
+        <button class="btn btn-primary" id="addMedia"><i class="fa fa-plus"></i> Youtube видео</button>
+{#        <button class="btn btn-success" id="addMediaFile"><i class="fa fa-plus"></i> Файл</button>#}
+    </div>
+
+    <h4 class="form-section"><i class="feather icon-file"></i> Файл</h4>
+
+
+    <div id="asyncFilesList" class="form-group">
+        {% for file in lesson.mediaFile %}
+            {{ prototype.mediaFileCollectionItem(file) }}
+        {% endfor %}
+    </div>
+
+    <div class="form-group row">
+        <div class="col-12 col-xs-12 mt-2 mb-2 text-right">
+            <button type="button" id="asyncUpload" class="btn btn-primary"><i class="fa fa-plus"></i> Файл</button>
+        </div>
+    </div>
+
+    <h4 class="form-section"><i class="feather icon-user"></i> Материал урока</h4>
+
+    {{ form_widget(form.content, {attr: {class: 'quilljs-textarea'}}) }}
+
+    <div class="form-actions text-right">
+        <button onclick="history.back()" class="btn btn-warning mr-1">
+            <i class="feather icon-x"></i> Назад
+        </button>
+        <button type="submit" class="btn btn-primary">
+            <i class="fa fa-check-square-o"></i> {{ submit }}
+        </button>
+    </div>
+</div>
+
+
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false}) }}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.5/plupload.full.min.js"></script>
+
+
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var count = '{{ form.media | length }}'
+    $(document).ready(function() {
+      var optionList = $('#fieldsList')
+
+      $('#addMedia').click(function() {
+        var newWidget = optionList.attr('data-media-prototype')
+        newWidget = newWidget.replace(/__name__/g, count)
+        count++
+        var newField = $(`<div class="addedField"></div>`).html(newWidget)
+        newField.appendTo($('#fieldsList'))
+
+        $('.removeListItem').click( (e) => {
+          $(e.target).parents('.addedField').remove()
+        })
+        return false
+      })
+
+
+      $('#addMediaFile').click(function() {
+        var newWidget = optionList.attr('data-mediaFile-prototype')
+        newWidget = newWidget.replace(/__name__/g, count)
+        count++
+        var newField = $(`<div class="addedField"></div>`).html(newWidget)
+        newField.appendTo($('#fieldsList'))
+
+        $('.removeListItem').click( (e) => {
+          $(e.target).parents('.addedField').remove()
+        })
+        return false
+      })
+
+    })
+
+    /* Async LOADER */
+    var list = document.getElementById("asyncFilesList");
+    var uploader = new plupload.Uploader({
+      runtimes: "html5",
+      browse_button: "asyncUpload",
+      url: "{{ path('admin_lesson_fileupload', {id: lesson.id}) }}",
+      chunk_size: "10mb",
+      init: {
+        BeforeUpload: (up, file) => {
+          uploader.settings.multipart_params["uid"] = file.id;
+        },
+        PostInit: () => console.log('Ready'),
+        FilesAdded: (up, files) => {
+          plupload.each(files, file => {
+            let row = document.createElement("div");
+            row.setAttribute('class', 'row')
+            row.id = file.id;
+            var removeUrl = "{{ path('admin_lesson_file_delete', {'uid': 'uid'}) }}"
+            removeUrl = removeUrl.replace("uid", file.uid);
+
+            row.innerHTML = `<label class="col-md-3 label-control">${file.name} - ${plupload.formatSize(file.size)}</label>
+                            <div class="col-md-6">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width:0%">0%</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="${removeUrl}" class="btn btn-danger removeListItem" type="button"><i class="fa fa-trash"></i></a>
+                            </div>`;
+            list.appendChild(row);
+          });
+
+          uploader.start();
+        },
+        UploadProgress: (up, file) => {
+          const progressBar = document.querySelector(`#${file.id} .progress-bar`)
+          progressBar.innerHTML = `${file.percent}%`;
+          progressBar.setAttribute('style', `width: ${file.percent}%`);
+        },
+        Error: (up, err) => console.error(err)
+      },
+    });
+    uploader.init();
+  });
+</script>

@@ -1,0 +1,93 @@
+{{ form_start(form, {attr: {class: 'form form-horizontal'}}) }}
+
+<div class="form-body">
+    <ul class="nav nav-tabs nav-top-border no-hover-bg">
+        <li class="nav-item">
+            <a class="nav-link active" id="base-tab1" data-toggle="tab" aria-controls="tab1" href="#tab1" role="tab" aria-selected="true">
+                Выберите главу
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="base-tab2" data-toggle="tab" aria-controls="tab2" href="#tab2" role="tab" aria-selected="false">
+                Создайте новую главу
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content pt-1">
+        <div class="tab-pane active" id="tab1" role="tabpanel" aria-labelledby="base-tab1">
+            <div class="form-group row">
+                <label class="col-md-3 label-control">Выберие главу</label>
+                <div class="col-md-9">
+                    {{ form_widget(form.chapter, {attr: {'class': 'select2 form-control', 'data-placeholder': "Выберите главу"}}) }}
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="tab2" role="tabpanel" aria-labelledby="base-tab2">
+            <div class="form-group row">
+                <label class="col-md-3 label-control">Название главы</label>
+                <div class="col-md-9">
+                    {{ form_widget(form.chapterTitle, {attr: {placeholder: 'Название главы'}}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-3 label-control">Название урока</label>
+        <div class="col-md-9">
+            {{ form_widget(form.title, {attr: {placeholder: 'Название урока'}}) }}
+        </div>
+    </div>
+
+    <div class="form-actions text-right">
+        <button onclick="history.back()" class="btn btn-warning mr-1">
+            <i class="feather icon-x"></i> Назад
+        </button>
+        <button type="submit" class="btn btn-primary">
+            <i class="fa fa-check-square-o"></i> {{ submit }}
+        </button>
+    </div>
+</div>
+
+
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false}) }}
+
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var count = '{{ form.media | length }}'
+
+    $(document).ready(function() {
+      var optionList = $('#fieldsList')
+
+      $('#addMedia').click(function() {
+        var newWidget = optionList.attr('data-media-prototype')
+        newWidget = newWidget.replace(/__name__/g, count)
+        count++
+        var newField = $(`<div class="addedField"></div>`).html(newWidget)
+        newField.appendTo($('#fieldsList'))
+
+        $('.removeListItem').click( (e) => {
+          $(e.target).parents('.addedField').remove()
+        })
+        return false
+      })
+
+
+      $('#addMediaFile').click(function() {
+        var newWidget = optionList.attr('data-mediaFile-prototype')
+        newWidget = newWidget.replace(/__name__/g, count)
+        count++
+        var newField = $(`<div class="addedField"></div>`).html(newWidget)
+        newField.appendTo($('#fieldsList'))
+
+        $('.removeListItem').click( (e) => {
+          $(e.target).parents('.addedField').remove()
+        })
+        return false
+      })
+
+    })
+  });
+
+</script>

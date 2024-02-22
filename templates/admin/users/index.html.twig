@@ -1,0 +1,84 @@
+{% extends "admin/base.html.twig" %}
+{% import 'admin/_parts/dialogs.html.twig' as dialogs %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2">
+            <h3 class="content-header-title mb-0">Сотрудники</h3>
+            <div class="row breadcrumbs-top">
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url('admin_dashboard_index') }}">Домой</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2 text-right">
+        </div>
+
+    </div>
+
+    <div class="content-body">
+        <section class="users-list-wrapper">
+
+            {% include 'admin/users/parts/searchForm.html.twig' %}
+
+            <div class="users-list-table">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <!-- datatable start -->
+                            <div class="table-responsive">
+                                <table id="users-list-datatable" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>Сотрудник</th>
+                                        <th>Отдел</th>
+                                        <th>Пройдено тестов</th>
+                                        <th>Создан</th>
+                                        <th>Действия</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for user in data %}
+                                        <tr>
+                                            <td><a href="{{ path('admin_users_show', {id: user.id}) }}">{{ user.id }}</a></td>
+                                            <td><a href="{{ path('admin_users_show', {id: user.id}) }}">{{ user.username }}</a></td>
+                                            <td>{{ user.department }}</td>
+                                            <td>
+                                                {{ user.results|length }}
+                                            </td>
+                                            <td>{{ user.createdAt|date('d/m/Y') }}</td>
+                                            <td>
+                                                <div class="invoice-action">
+                                                    <div class="invoice-action">
+                                                        <a href="{{ path('admin_users_show', {id: user.id}) }}" class="btn btn-success"><i class="fa fa-edit"></i></a>
+
+                                                        <a data-toggle="modal" href="#remove-user-{{ user.id }}" class="btn btn-danger"><i class="fa icon-trash"></i></a>
+                                                        {{ dialogs.confirm('remove-user-' ~ user.id, 'Удалить', url('admin_users_delete', {id: user.id}), 'Вы точно хотите удалить пользователя?') }}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+{% endblock %}

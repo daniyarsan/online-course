@@ -1,0 +1,76 @@
+{% extends "admin/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="{{ asset('admin/js/scripts/pages/quill-helper.min.js') }}"></script>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2">
+            <h3 class="content-header-title mb-0">Редактировать Вопрос</h3>
+            <div class="row breadcrumbs-top">
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url('admin_dashboard_index') }}">Домой</a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin_course_index') }}">Список курсов</a>
+                        </li>
+                        <li class="breadcrumb-item active">Редактировать Вопрос</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2">
+            <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-settings icon-left"></i> Опции</button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        {#                        <a class="dropdown-item" href="card-bootstrap.html">Bootstrap Cards</a> #}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-body">
+        <div class="invoice-add-wrapper">
+            <div class="row">
+                <div class="col-xl-12 col-md-8 col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            {% include('admin/lesson/parts/form_edit.html.twig') with  {submit: 'Обновить'} %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+
+<script src="{{ asset('admin/js/scripts/pages/quill-helper.min.js') }}"></script>
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<script>
+(function() {
+  quilljs_textarea('.quilljs-textarea', {
+  modules: { toolbar: [
+      ['bold', 'italic', 'underline'],        // toggled buttons
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      [{ 'align': [] }],
+  ]},
+  theme: 'snow',
+  });
+})();
+</script>
+
+{% endblock %}

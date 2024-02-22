@@ -1,0 +1,11 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-4 col-xs-12 mb-1">
+        {{ form_widget(form.name, {attr: {placeholder: 'Название категории'}}) }}
+    </div>
+
+    <div class="col-12 col-xs-12 mb-2">
+        <button data-repeater-create class="btn btn-primary mt-1 pull-right" type="submit"><i class="fa fa-rocket"></i> {{ submit }}</button>
+    </div>
+</div>
+{{ form_end(form) }}

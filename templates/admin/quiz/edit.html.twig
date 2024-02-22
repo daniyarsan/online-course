@@ -1,0 +1,112 @@
+{% extends "admin/base.html.twig" %}
+{% import 'admin/_parts/dialogs.html.twig' as dialogs %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2">
+            <h3 class="content-header-title mb-0">Редактировать Квиз</h3>
+            <div class="row breadcrumbs-top">
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url('admin_dashboard_index') }}">Домой</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin_quiz_index') }}">Список Квизов</a></li>
+                        <li class="breadcrumb-item"><a href="#">Редактировать Квиз</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2">
+            <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-settings icon-left"></i> Опции</button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    </div>
+                </div>
+                <a data-toggle="modal" href="#remove-quiz-{{ quiz.id  }}" class="btn btn-outline-danger"><i class="fa fa-trash"></i></a>
+                {{ dialogs.confirm('remove-quiz-' ~ quiz.id, 'Удалить', url('admin_quiz_delete', {id: quiz.id}), 'Вы точно хотите удалить квиз?') }}
+            </div>
+        </div>
+    </div>
+    <div class="content-body">
+        <div class="invoice-add-wrapper">
+            <div class="row">
+
+                <div class="col-xl-12 col-md-12 col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            {% include('admin/quiz/parts/form.html.twig') with  {submit: 'Обновить'} %}
+                            <hr>
+                            <h2>Вопросы:</h2>
+                            {% for key, question in quiz.questions %}
+                                <hr>
+
+                                <div class="card">
+                                    <div class="card-header" id="heading-links">
+                                        <h4 class="card-title text-capitalize">{{ question.id }}. {{ question.title }} </h4>
+                                    </div>
+                                    <div class="col-md-12 text-right">
+                                        <ul class="list-inline mb-0">
+                                            <li>
+                                                <a href="{{ path('admin_question_edit', {id : question.id}) }}" class="btn btn-outline-primary"><i class="fa fa-pencil"></i></a>
+                                            </li>
+                                            <li>
+                                                <a data-toggle="modal" href="#remove-question-{{ question.id }}" class="btn btn-outline-danger"><i class="fa fa-trash"></i></a>
+                                                {{ dialogs.confirm('remove-question-' ~ question.id, 'Удалить', path('admin_question_delete', {id : question.id}), 'Вы точно хотите удалить вопрос?') }}
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Текст</th>
+                                                <th>Тип</th>
+                                                <th>Балл</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% if question.choices is defined %}
+                                                {% for choiceKey, choice in question.choices %}
+                                                    <tr>
+                                                        <th scope="row">{{ choice.id }}</th>
+                                                        <td style="width: 60%;">{{ choice.description }}</td>
+                                                        <td><span class="badge badge-{{ choice.type == 'text' ? 'primary' : 'success' }}">{{ choice.type }}</span></td>
+                                                        <td>{{ choice.score }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% endif %}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+
+                            <a href="{{ path('admin_quiz_question_create', {id : quiz.id}) }}" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Добавить Вопрос</a>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script src="{{ asset('admin/vendors/js/forms/repeater/jquery.repeater.min.js') }}"></script>
+<script src="{{ asset('admin/vendors/js/forms/toggle/switchery.min.js') }}"></script>
+<script src="{{ asset('admin/js/scripts/pages/app-invoice.min.js') }}"></script>
+{% endblock %}

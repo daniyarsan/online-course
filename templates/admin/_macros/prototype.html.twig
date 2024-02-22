@@ -1,0 +1,28 @@
+{% macro mediaCollectionItem(item) %}
+    <div class="form-group row" id="{{ item.vars.id }}">
+        <label class="col-md-3 label-control">
+            {{ form_label(item.url , item.url.vars.label) }}
+        </label>
+        <div class="col-md-6">
+            {{ form_widget(item.url, {attr: {placeholder: 'Урл'}}) }}
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-danger removeListItem" type="button"><i class="fa fa-trash"></i></button>
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro mediaFileCollectionItem(file) %}
+    <div class="form-group row" id="{{ file.id }}">
+        <label class="col-md-3 label-control">
+            {{ file.path }}
+        </label>
+        <div class="col-md-6">
+            {{ file.createdAt|date("m/d/Y") }}
+        </div>
+        <div class="col-md-3">
+            <a href="{{ file.uid ? path('admin_lesson_file_delete', {'uid': file.uid}) : '' }}" class="btn btn-danger" type="button"><i class="fa fa-trash"></i></a>
+        </div>
+    </div>
+{% endmacro %}

@@ -1,0 +1,65 @@
+{% extends "admin/base.html.twig" %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/vendors/css/vendors.min.css' ) }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/vendors/css/tables/datatable/datatables.min.css' ) }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'admin/css/pages/page-users.min.css' ) }}">
+{% endblock %}
+
+{% block content %}
+    <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2">
+            <h3 class="content-header-title mb-0">Сообщения</h3>
+            <div class="row breadcrumbs-top">
+                <div class="breadcrumb-wrapper col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url('admin_dashboard_index') }}">Домой</a></li>
+                        <li class="breadcrumb-item"><a href="{{ path('admin_message_index') }}">Сообщения</a></li>
+                        <li class="breadcrumb-item"><a href="#">{{ message.user ? message.user.username : 'Аноним' }}</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2">
+            <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-settings icon-left"></i> Settings</button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1"><a class="dropdown-item" href="card-bootstrap.html">Bootstrap Cards</a><a class="dropdown-item" href="component-buttons-extended.html">Buttons Extended</a></div>
+                </div>
+                <a class="btn btn-outline-primary" href="full-calender-basic.html"><i class="feather icon-mail"></i></a><a class="btn btn-outline-primary" href="timeline-center.html"><i class="feather icon-pie-chart"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-body">
+
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">{{ message.user ? message.user.username : 'Аноним' }}</h4>
+                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                <div class="heading-elements">
+                    <ul class="list-inline mb-0">
+                        <li><a data-action="collapse"><i class="feather icon-minus"></i></a></li>
+                        <li><a data-action="reload"><i class="feather icon-rotate-cw"></i></a></li>
+                        <li><a data-action="close"><i class="feather icon-x"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-content collapse show">
+                <div class="card-body">
+                    <div class="card-text">
+                        <p>{{ message.message }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script src="{{ asset('admin/vendors/js/tables/datatable/datatables.min.js') }}"></script>
+<script src="{{ asset('admin/js/scripts/pages/page-users.min.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,75 @@
+{{ form_start(form) }}
+
+<div class="row">
+    <div class="col-12 col-xs-12">
+        <div class="form-group">
+            <label for="">Вопрос</label>
+            {{ form_widget(form.title, {attr: {placeholder: 'Текст вопроса'}}) }}
+        </div>
+    </div>
+
+    <div id="optionsList" class="col-12 col-xs-12 mb-2 p-2 border-bottom"  data-prototype="{{ include('admin/question/parts/prototype.html.twig', { 'form': form.choices.vars.prototype }) | e }}">
+        {% for choiceField in form.choices %}
+            <div class="addedExistingQuestionItem row mt-2">
+                <div class="col-md-3 mb-2">
+                    {{ form_widget(choiceField.description, {attr: {placeholder: 'Вариант ответа'}}) }}
+                </div>
+                <div class="col-md-3 mb-2">
+                    {{ form_widget(choiceField.type, {attr: {'class': 'form-control select2', 'data-placeholder': "Выберите тип"}}) }}
+                </div>
+                <div class="col-md-3 mb-2">
+                    {{ form_widget(choiceField.score) }}
+                </div>
+                <div class="col-md-3 mb-2">
+                    <button class="btn btn-danger removeExistingListItem" type="button"><i class="fa fa-minus"></i> Удалить</button>
+                </div>
+            </div>
+            <hr>
+        {% endfor %}
+
+    </div>
+
+    <div class="col-12 col-xs-12 mb-2">
+        <button class="btn btn-primary pull-right" id="addOption"><i class="fa fa-plus"></i> Добавить вариант ответа</button>
+    </div>
+
+    <div class="col-12 col-xs-12 mb-2">
+        <a data-repeater-create class="btn btn-default mx-1" href="{{ path('admin_quiz_edit', {'id': quiz.id}) }}"><i class="fa fa-arrow-left"></i> Назад</a>
+        <button data-repeater-create class="btn btn-success mx-1 pull-right" type="submit"><i class="fa fa-rocket"></i> {{ submit }}</button>
+    </div>
+</div>
+
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false}) }}
+
+
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var count = '{{ form.choices | length }}'
+
+    $(document).ready(function() {
+
+      $('.removeExistingListItem').click( (e) => {
+        console.log(e.target)
+        $(e.target).parents('.addedExistingQuestionItem').remove()
+      })
+
+      $('#addOption').click(function() {
+
+        var optionList = $('#optionsList')
+        var newWidget = optionList.attr('data-prototype')
+        newWidget = newWidget.replace(/__name__/g, count)
+        count++
+        var newField = $(`<div class="addedQuestonItem"></div>`).html(newWidget)
+        newField.appendTo($('#optionsList'))
+
+        $('.removeListItem').click( (e) => {
+          $(e.target).parents('.addedQuestonItem').remove()
+        })
+
+        return false
+      })
+    })
+  });
+
+</script>
